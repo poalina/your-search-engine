@@ -1,6 +1,13 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  ScrollView,
+  View,
+  ActivityIndicator
+} from "react-native";
 import { key } from "./key";
+import ArticleCard from "./Components/ArticleCard";
 
 export default class App extends Component {
   state = {
@@ -25,16 +32,17 @@ export default class App extends Component {
     if (isLoading) {
       return (
         <View>
-          <Text>Loading....</Text>
+          <ActivityIndicator size="large" color="#0000ff" />
         </View>
       );
     }
     return (
       <View style={styles.container}>
-        <Text>data</Text>
-        {data.map(item => {
-          return <Text>{item.webTitle}</Text>;
-        })}
+        <ScrollView>
+          {data.map(item => {
+            return <ArticleCard key={item.id} item={item} />;
+          })}
+        </ScrollView>
       </View>
     );
   }
