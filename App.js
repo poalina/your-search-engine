@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import { key } from "./key";
 import ArticleCard from "./Components/ArticleCard";
+import Header from "./Components/Header";
+import SearchBox from "./Components/SearchBox";
 
 export default class App extends Component {
   state = {
@@ -38,6 +40,8 @@ export default class App extends Component {
     }
     return (
       <View style={styles.container}>
+        <Header />
+        <SearchBox />
         <ScrollView>
           {data.map(item => {
             return <ArticleCard key={item.id} item={item} />;
@@ -53,6 +57,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    padding: 25
   }
 });
