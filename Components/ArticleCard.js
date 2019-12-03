@@ -14,7 +14,9 @@ export default class ArticleCard extends Component {
     return (
       <View>
         <Text style={styles.title}>{item.webTitle}</Text>
-        <Text style={styles.text}>Topic: {item.sectionName}</Text>
+        <Text style={styles.text}>
+          Pillar name: {item.pillarName}, Section: {item.sectionName}
+        </Text>
         <Text style={styles.text}>
           Created at: {new Date(item.webPublicationDate).toDateString()}
         </Text>

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import * as api from "./api";
 import {
   StyleSheet,
   Text,
@@ -6,7 +7,6 @@ import {
   View,
   ActivityIndicator
 } from "react-native";
-import { key } from "./key";
 import ArticleCard from "./Components/ArticleCard";
 import Header from "./Components/Header";
 import SearchBox from "./Components/SearchBox";
@@ -18,17 +18,16 @@ export default class App extends Component {
   };
 
   componentDidMount() {
-    return fetch(
-      `https://content.guardianapis.com/search?tag=environment/recycling&api-key=${key}`
-    )
-      .then(response => response.json())
-      .then(responseJSON => {
-        const data = responseJSON.response.results;
-
-        this.setState({ isLoading: false, data: data });
-      })
-      .catch(err => console.log(err, "error"));
+    this.fetchData();
   }
+
+  fetchData = () => {
+    let query = "pink";
+    let page = 4;
+    api
+      .getData(query, page)
+      .then(data => this.setState({ isLoading: false, data: data.results }));
+  };
   render() {
     const { data, isLoading } = this.state;
     if (isLoading) {
