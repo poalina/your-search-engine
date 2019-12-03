@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import * as api from "./api";
 import {
   StyleSheet,
-  Text,
   ScrollView,
   View,
   Button,
@@ -19,7 +18,7 @@ export default class App extends Component {
     err: null,
     page: 1,
     pages: null,
-    query: "orange"
+    query: ""
   };
 
   componentDidMount() {
@@ -31,6 +30,9 @@ export default class App extends Component {
     });
   };
 
+  updateSearchTerms = input => {
+    this.setState({ query: input });
+  };
   fetchData = () => {
     const query = this.state.query;
     const page = this.state.page;
@@ -43,8 +45,9 @@ export default class App extends Component {
     );
   };
   componentDidUpdate(prevProps, prevState) {
-    const { page } = this.state;
-    if (prevState.page !== page) {
+    const { page, query } = this.state;
+
+    if (prevState.page !== page || prevState.query !== query) {
       this.fetchData();
     }
   }
@@ -60,7 +63,7 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
         <Header />
-        <SearchBox />
+        <SearchBox updateSearchTerms={this.updateSearchTerms} />
         <ScrollView>
           {data.map(item => {
             return <ArticleCard key={item.id} item={item} />;
