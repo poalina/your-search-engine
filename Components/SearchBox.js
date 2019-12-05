@@ -10,20 +10,23 @@ export default class SearchBox extends Component {
     err: null,
     page: 1,
     pages: null,
-    query: ""
+    query: "",
+    input: ""
   };
 
   handleChange = input => {
     input.preventDefault;
-    this.setState({ query: input });
+    this.setState({ input });
   };
   handleSubmit = () => {
-    event.preventDefault();
-    this.componentDidMount;
     this.fetchData();
-    this.setState({ query: "" });
+    this.setState({ query: this.state.input });
   };
-
+  componentDidMount() {
+    if (this.state.query) {
+      this.fetchData();
+    }
+  }
   handleChangePage = direction => {
     this.setState(currentState => {
       return { page: currentState.page + direction };
@@ -39,6 +42,13 @@ export default class SearchBox extends Component {
       })
     );
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    const { page, query } = this.state;
+    if (prevState.page !== page || prevState.query !== query) {
+      this.fetchData();
+    }
+  }
   render() {
     return (
       <View
@@ -48,7 +58,7 @@ export default class SearchBox extends Component {
           style={styles.textInput}
           placeholder="write here..."
           onChangeText={text => this.handleChange(text)}
-          defaultValue={this.state.query}
+          defaultValue={this.state.input}
         />
         <Button
           // style={styles.button}
@@ -80,50 +90,3 @@ const styles = StyleSheet.create({
     width: 20
   }
 });
-
-/////////////////////////////////////////////
-// import React, { Component } from "react";
-// import { StyleSheet, Text, View, TextInput, Button } from "react-native";
-
-// export default class SearchBox extends Component {
-//   state = {
-//     isLoading: true,
-//     data: null,
-//     err: null,
-//     page: 1,
-//     pages: null,
-//     query: "",
-//     value: ""
-//   };
-//   handleChange = input => {
-//     input.preventDefault;
-//     this.setState({ value: input });
-//   };
-//   handleSubmit = event => {
-//     event.preventDefault();
-//     this.props.updateSearchTerms(this.state.value);
-//     this.setState({ value: "" });
-//   };
-//   render() {
-//     return (
-//       <View style={styles.searchBox}>
-//         <TextInput
-//           style={styles.textInput}
-//           placeholder="write here..."
-//           onChangeText={text => this.handleChange(text)}
-//           value={this.state.value}
-//         />
-//         <Button title="Search" onPress={this.handleSubmit} />
-//       </View>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   searchBox: {
-//     flex: 1,
-//     flexDirection: "row",
-//     paddingVertical: 20
-//   },
-//   textInput: { height: 30, borderColor: "gray", borderWidth: 1 }
-// });
