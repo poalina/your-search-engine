@@ -1,86 +1,24 @@
 import React, { Component } from "react";
-import * as api from "./api";
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  Button,
-  ActivityIndicator
-} from "react-native";
+
+import { StyleSheet, View } from "react-native";
 import ArticleCard from "./Components/ArticleCard";
 import Header from "./Components/Header";
 import SearchBox from "./Components/SearchBox";
 
 export default class App extends Component {
-  state = {
-    isLoading: true,
-    data: null,
-    err: null,
-    page: 1,
-    pages: null,
-    query: ""
-  };
-
-  componentDidMount() {
-    this.fetchData();
-  }
-  handleChangePage = direction => {
-    this.setState(currentState => {
-      return { page: currentState.page + direction };
-    });
-  };
-
-  updateSearchTerms = input => {
-    this.setState({ query: input });
-  };
-  fetchData = () => {
-    const query = this.state.query;
-    const page = this.state.page;
-    api.getData(query, page).then(data =>
-      this.setState({
-        isLoading: false,
-        data: data.results,
-        pages: data.pages
-      })
-    );
-  };
-  componentDidUpdate(prevProps, prevState) {
-    const { page, query } = this.state;
-
-    if (prevState.page !== page || prevState.query !== query) {
-      this.fetchData();
-    }
-  }
   render() {
-    const { data, isLoading, pages, page } = this.state;
-    if (isLoading) {
-      return (
-        <View>
-          <ActivityIndicator size="large" color="#0000ff" />
-        </View>
-      );
-    }
+    // const { data, isLoading, pages, page } = this.state;
+    // if (isLoading) {
+    //   return (
+    //     <View>
+    //       <ActivityIndicator size="large" color="#0000ff" />
+    //     </View>
+    //   );
+    // }
     return (
       <View style={styles.container}>
         <Header />
-        <SearchBox updateSearchTerms={this.updateSearchTerms} />
-        <ScrollView>
-          {data.map(item => {
-            return <ArticleCard key={item.id} item={item} />;
-          })}
-          <View style={styles.buttons}>
-            <Button
-              disabled={page === 1}
-              onPress={() => this.handleChangePage(-1)}
-              title="Prev page"
-            />
-            <Button
-              disabled={page === pages}
-              onPress={() => this.handleChangePage(1)}
-              title="Next page"
-            />
-          </View>
-        </ScrollView>
+        <SearchBox />
       </View>
     );
   }
@@ -88,7 +26,6 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
