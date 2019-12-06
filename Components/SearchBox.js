@@ -11,21 +11,28 @@ export default class SearchBox extends Component {
     page: 1,
     pages: null,
     query: "",
-    input: ""
+    input: "",
+    validate: true
   };
 
   handleChange = input => {
     input.preventDefault;
-    this.setState({ input });
+    const regex = /[A-Za-z0-9 _]+$/;
+    if (regex.test(input)) {
+      this.setState({ input });
+    } else {
+      // this.setState({ validate: false });
+      alert("incorrect input");
+    }
   };
   handleSubmit = () => {
-    this.fetchData();
     this.setState({ query: this.state.input });
+
+    this.fetchData();
   };
+
   componentDidMount() {
-    if (this.state.query) {
-      this.fetchData();
-    }
+    console.log("mounted");
   }
   handleChangePage = direction => {
     this.setState(currentState => {
@@ -55,6 +62,7 @@ export default class SearchBox extends Component {
       // style={styles.searchBox}
       >
         <TextInput
+          clearTextOnFocus={true}
           style={styles.textInput}
           placeholder="write here..."
           onChangeText={text => this.handleChange(text)}

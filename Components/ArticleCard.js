@@ -15,7 +15,8 @@ export default class ArticleCard extends Component {
       <View>
         <Text style={styles.title}>{item.webTitle}</Text>
         <Text style={styles.text}>
-          Pillar name: {item.pillarName}, Section: {item.sectionName}
+          Section: {item.pillarName}, Topic: {item.sectionName}, Type:{" "}
+          {item.type}
         </Text>
         <Text style={styles.text}>
           Created at: {new Date(item.webPublicationDate).toDateString()}
@@ -33,7 +34,7 @@ export default class ArticleCard extends Component {
 const styles = StyleSheet.create({
   title: {
     marginTop: 15,
-    fontSize: 14,
+    fontSize: 20,
     fontWeight: "500",
     textAlign: "center"
   },
