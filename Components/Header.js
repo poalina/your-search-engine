@@ -4,7 +4,7 @@ import { Text, View, StyleSheet } from "react-native";
 export default function Header() {
   return (
     <View>
-      <Text style={styles.header}>The latest news</Text>
+      <Text style={styles.header}>Search for the NEWS</Text>
     </View>
   );
 }

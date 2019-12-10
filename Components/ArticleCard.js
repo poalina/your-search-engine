@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-  Button
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
 import { Linking } from "expo";
 
 export default class ArticleCard extends Component {
@@ -13,7 +7,12 @@ export default class ArticleCard extends Component {
     const item = this.props.item;
     return (
       <View>
-        <Text style={styles.title}>{item.webTitle}</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => Linking.openURL(item.webUrl)}
+        >
+          <Text style={styles.title}>{item.webTitle}</Text>
+        </TouchableOpacity>
         <Text style={styles.text}>
           Section: {item.pillarName}, Topic: {item.sectionName}, Type:{" "}
           {item.type}
@@ -26,9 +25,13 @@ export default class ArticleCard extends Component {
           onPress={() => Linking.openURL(item.webUrl)}
           title="Read more"
         ></Button>
+        <Separator style={styles.separator} />
       </View>
     );
   }
+}
+function Separator() {
+  return <View style={styles.separator} />;
 }
 
 const styles = StyleSheet.create({
@@ -42,5 +45,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "200",
     textAlign: "center"
+  },
+  button: {
+    alignItems: "center",
+    padding: 10
+  },
+  separator: {
+    marginVertical: 8,
+    borderBottomColor: "black",
+    borderBottomWidth: StyleSheet.hairlineWidth
   }
 });

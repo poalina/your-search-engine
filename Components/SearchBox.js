@@ -5,7 +5,6 @@ import Results from "./Results";
 
 export default class SearchBox extends Component {
   state = {
-    isLoading: true,
     results: null,
     err: null,
     page: 1,
@@ -21,19 +20,13 @@ export default class SearchBox extends Component {
     if (regex.test(input)) {
       this.setState({ input });
     } else {
-      // this.setState({ validate: false });
       alert("incorrect input");
     }
   };
   handleSubmit = () => {
     this.setState({ query: this.state.input });
-
-    this.fetchData();
   };
 
-  componentDidMount() {
-    console.log("mounted");
-  }
   handleChangePage = direction => {
     this.setState(currentState => {
       return { page: currentState.page + direction };
@@ -49,6 +42,7 @@ export default class SearchBox extends Component {
       })
     );
   };
+  componentDidMount() {}
 
   componentDidUpdate(prevProps, prevState) {
     const { page, query } = this.state;
@@ -58,9 +52,7 @@ export default class SearchBox extends Component {
   }
   render() {
     return (
-      <View
-      // style={styles.searchBox}
-      >
+      <View>
         <TextInput
           clearTextOnFocus={true}
           style={styles.textInput}
@@ -69,7 +61,7 @@ export default class SearchBox extends Component {
           defaultValue={this.state.input}
         />
         <Button
-          // style={styles.button}
+          color="red"
           title="Search"
           onPress={() => this.handleSubmit()}
         />
@@ -88,13 +80,16 @@ export default class SearchBox extends Component {
 
 const styles = StyleSheet.create({
   searchBox: {
-    flex: 1,
-    flexDirection: "row",
-    paddingVertical: 20
+    // flex: 1,
+    // flexDirection: "row",
+    paddingVertical: 20,
+    height: 20,
+    width: 80
   },
-  textInput: { height: 30, borderColor: "gray", borderWidth: 1 },
-  button: {
+  textInput: {
+    textAlign: "center",
     height: 30,
-    width: 20
+    borderColor: "gray",
+    borderWidth: 1
   }
 });
