@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import * as api from "../api";
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import { StyleSheet, View, TextInput, Button, ScrollView } from "react-native";
 import Results from "./Results";
 
 export default class SearchBox extends Component {
@@ -10,8 +10,7 @@ export default class SearchBox extends Component {
     page: 1,
     pages: null,
     query: "",
-    input: "",
-    validate: true
+    input: ""
   };
 
   handleChange = input => {
@@ -34,13 +33,18 @@ export default class SearchBox extends Component {
   };
   fetchData = () => {
     const { page, query } = this.state;
-    api.getData(page, query).then(data =>
-      this.setState({
-        isLoading: false,
-        results: data.results,
-        pages: data.pages
-      })
-    );
+    api
+      .getData(page, query)
+      .then(data =>
+        this.setState({
+          isLoading: false,
+          results: data.results,
+          pages: data.pages
+        })
+      )
+      .catch(err => {
+        this.setState({ err: true });
+      });
   };
   componentDidMount() {}
 
@@ -51,8 +55,10 @@ export default class SearchBox extends Component {
     }
   }
   render() {
+    if (this.state.err)
+      return <Text style={{ textAlign: "center" }}>Page not found</Text>;
     return (
-      <View>
+      <View style={styles.main}>
         <TextInput
           clearTextOnFocus={true}
           style={styles.textInput}
@@ -61,31 +67,27 @@ export default class SearchBox extends Component {
           defaultValue={this.state.input}
         />
         <Button
-          color="red"
+          color="green"
           title="Search"
           onPress={() => this.handleSubmit()}
         />
-        {this.state.results && (
-          <Results
-            results={this.state.results}
-            pages={this.state.pages}
-            currentPage={this.state.page}
-            handleChangePage={this.handleChangePage}
-          />
-        )}
+        <ScrollView>
+          {this.state.results && (
+            <Results
+              results={this.state.results}
+              pages={this.state.pages}
+              currentPage={this.state.page}
+              handleChangePage={this.handleChangePage}
+            />
+          )}
+        </ScrollView>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  searchBox: {
-    // flex: 1,
-    // flexDirection: "row",
-    paddingVertical: 20,
-    height: 20,
-    width: 80
-  },
+  main: { marginVertical: 20 },
   textInput: {
     textAlign: "center",
     height: 30,

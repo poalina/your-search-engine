@@ -1,19 +1,13 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  Button,
-  ActivityIndicator
-} from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 import ArticleCard from "./ArticleCard";
 
 export default class Results extends Component {
   render() {
     const { currentPage, pages, results } = this.props;
-
+    if (results.length === 0) return <Text>Results not found</Text>;
     return (
-      <ScrollView>
+      <View>
         {results.map(item => {
           return <ArticleCard key={item.id} item={item} />;
         })}
@@ -29,7 +23,7 @@ export default class Results extends Component {
             title="Next page"
           />
         </View>
-      </ScrollView>
+      </View>
     );
   }
 }

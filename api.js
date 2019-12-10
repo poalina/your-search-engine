@@ -6,6 +6,5 @@ export const getData = (page, query) => {
     .then(res => res.json())
     .then(responseJSON => {
       return responseJSON.response;
-    })
-    .catch(err => console.log(err, "error"));
+    });
 };

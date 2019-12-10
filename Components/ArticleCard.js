@@ -36,7 +36,7 @@ function Separator() {
 
 const styles = StyleSheet.create({
   title: {
-    marginTop: 15,
+    marginTop: 5,
     fontSize: 20,
     fontWeight: "500",
     textAlign: "center"
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   separator: {
-    marginVertical: 8,
+    marginVertical: 10,
     borderBottomColor: "black",
     borderBottomWidth: StyleSheet.hairlineWidth
   }
